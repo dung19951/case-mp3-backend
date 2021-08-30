@@ -19,9 +19,9 @@ class CreateSongsTable extends Migration
             $table->bigInteger('category_id')->unsigned()->nullable();
             $table->string('lyric')->nullable();
             $table->string('song_image');
-            $table->bigInteger('view_count')->default(0);
-            $table->integer('like');
-            $table->integer('unlike');
+            $table->bigInteger('view_count')->nullable()->default(0);
+            $table->integer('like')->nullable()->default(0);
+            $table->integer('unlike')->nullable()->default(0);
             $table->timestamps();
         });
     }
