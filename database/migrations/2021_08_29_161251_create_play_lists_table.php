@@ -18,8 +18,8 @@ class CreatePlayListsTable extends Migration
             $table->string('play_list_name');
             $table->bigInteger('song_id')->unsigned()->nullable();
             $table->bigInteger('comment_id')->unsigned()->nullable();
-            $table->integer('like');
-            $table->integer('unlike');
+            $table->integer('like')->nullable()->default(0);
+            $table->integer('unlike')->nullable()->default(0);
             $table->timestamps();
         });
     }
