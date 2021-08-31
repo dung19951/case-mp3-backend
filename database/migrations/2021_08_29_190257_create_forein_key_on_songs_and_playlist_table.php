@@ -14,7 +14,7 @@ class CreateForeinKeyOnSongsAndPlaylistTable extends Migration
     public function up()
     {
         Schema::table('playLists_songs', function (Blueprint $table) {
-            $table->foreign('song_id')->references('song_id')->on('songs');
+            $table->foreign('song_id')->references('id')->on('songs');
         });
     }
 

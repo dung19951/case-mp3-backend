@@ -14,8 +14,8 @@ class CreateForeinKeyOnRolesAndSongsTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->foreign('role_id')->references('role_id')->on('roles');
-            $table->foreign('song_id')->references('song_id')->on('songs');
+            $table->foreign('role_id')->references('id')->on('roles');
+            $table->foreign('song_id')->references('id')->on('songs');
         });
     }
 

@@ -20,9 +20,9 @@ class CategoryController extends Controller
         return response()->json($categories,201);
     }
 
-    public function update(Request $request,$category_id)
+    public function update(Request $request,$id)
     {
-        $category=Category::findOrFail($category_id);
+        $category=Category::findOrFail($id);
         $category->category_name=$request->input('category_name');
         $category->save();
         return response()->json($category,202);
