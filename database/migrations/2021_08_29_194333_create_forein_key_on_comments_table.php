@@ -14,7 +14,7 @@ class CreateForeinKeyOnCommentsTable extends Migration
     public function up()
     {
         Schema::table('play_lists', function (Blueprint $table) {
-            $table->foreign('comment_id')->references('comment_id')->on('comments');
+            $table->foreign('comment_id')->references('id')->on('comments');
         });
     }
 
