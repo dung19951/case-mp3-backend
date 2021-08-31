@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class SingerController extends Controller
 {
-    public function index()
+    public function getAll()
     {
         $singers = Singer::all();
         return response()->json($singers);
@@ -19,6 +19,20 @@ class SingerController extends Controller
         $singer->name =$request->input('name');
         $singer->save();
         return response()->json($singer, 201);
+    }
+
+    public function update(Request $request,$id)
+    {
+        $singer = Singer::findOrFail($id);
+        $singer->name = $request->input('name');
+        $singer->save();
+        return response()->json($singer,202);
+    }
+
+    public function destroy($id)
+    {
+        $singer = Singer::findOrFail($id);
+        $singer->delete();
     }
 }
 

@@ -23,7 +23,9 @@ Route::prefix('category')->group(function (){
     Route::post('{id}/update',[CategoryController::class,'update']);
     Route::delete('{id}/delete',[CategoryController::class,'destroy']);
 });
-Route::prefix('singers')->group(function (){
-    Route::get('/',[SingerController::class,'index']);
-    Route::post('/add',[SingerController::class,'add']);
+Route::prefix('singer')->group(function (){
+    Route::get('/',[SingerController::class,'getAll']);
+    Route::post('/store',[SingerController::class,'add']);
+    Route::post('{id}/update',[SingerController::class,'update']);
+    Route::delete('{id}/delete',[SingerController::class,'destroy']);
 });
