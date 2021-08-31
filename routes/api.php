@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SingerController;
 use Illuminate\Http\Request;
@@ -16,16 +17,27 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::middleware(['auth:api'])->group(function () {
 
-Route::prefix('category')->group(function (){
-    Route::get('/',[CategoryController::class,'gelAll']);
-    Route::post('store',[CategoryController::class,'store']);
-    Route::post('{id}/update',[CategoryController::class,'update']);
-    Route::delete('{id}/delete',[CategoryController::class,'destroy']);
-});
-Route::prefix('singer')->group(function (){
-    Route::get('/',[SingerController::class,'getAll']);
-    Route::post('/store',[SingerController::class,'add']);
-    Route::post('{id}/update',[SingerController::class,'update']);
-    Route::delete('{id}/delete',[SingerController::class,'destroy']);
+    Route::prefix('auth')->group(function (){
+        Route::post('/logout', [AuthController::class, 'logout']);
+        Route::post('/refresh', [AuthController::class, 'refresh']);
+        Route::get('/user-profile', [AuthController::class, 'userProfile']);
+        Route::post('/change-password', [AuthController::class, 'changePassword']);
+    });
+
+    Route::prefix('category')->group(function () {
+        Route::get('/', [CategoryController::class, 'gelAll']);
+        Route::post('store', [CategoryController::class, 'store']);
+        Route::post('{id}/update', [CategoryController::class, 'update']);
+        Route::delete('{id}/delete', [CategoryController::class, 'destroy']);
+    });
+    Route::prefix('singer')->group(function () {
+        Route::get('/', [SingerController::class, 'getAll']);
+        Route::post('/store', [SingerController::class, 'add']);
+        Route::post('{id}/update', [SingerController::class, 'update']);
+        Route::delete('{id}/delete', [SingerController::class, 'destroy']);
+    });
 });
