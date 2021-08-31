@@ -14,7 +14,7 @@ class CreateForeinKeyOnCategoriesTable extends Migration
     public function up()
     {
         Schema::table('songs', function (Blueprint $table) {
-            $table->foreign('category_id')->references('category_id')->on('categories');
+            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 

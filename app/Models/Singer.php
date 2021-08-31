@@ -9,7 +9,7 @@ class Singer extends Model
 {
     use HasFactory;
     protected $table ='singers';
-    function song(){
-        return $this->hasMany(Song::class);
-    }
+function song(){
+    return $this->hasMany(Song::class);
+}
 }
