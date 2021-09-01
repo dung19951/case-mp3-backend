@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SingerController;
 use Illuminate\Http\Request;
@@ -29,3 +30,7 @@ Route::prefix('singer')->group(function (){
     Route::post('{id}/update',[SingerController::class,'update']);
     Route::delete('{id}/delete',[SingerController::class,'destroy']);
 });
+
+
+Route::post('register',[UserController::class,'register']);
+Route::post('login',[UserController::class,'login']);
