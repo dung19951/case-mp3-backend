@@ -33,4 +33,5 @@ class CategoryController extends Controller
         $category=Category::findOrFail($id);
         $category->delete();
     }
+
 }
