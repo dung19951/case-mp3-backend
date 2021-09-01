@@ -42,4 +42,10 @@ class SingerApiController extends Controller
         $singer = Singer::where('name','LIKE','%'.$keyword.'%')->get();
         return response()->json($singer,201);
     }
+
+    public function detail($id)
+    {
+        $singer = Singer::findOrFail($id);
+        return response()->json($singer);
+    }
 }
