@@ -34,6 +34,13 @@ class SingerController extends Controller
         $singer = Singer::findOrFail($id);
         $singer->delete();
     }
+
+    public function find(Request $request)
+    {
+        $keyword = $request->input('search');
+        $singer = Singer::where('name','LIKE','%'.$keyword.'%')->get();
+        return response()->json($singer,201);
+    }
 }
 
 
