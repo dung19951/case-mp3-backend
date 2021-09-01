@@ -15,7 +15,7 @@ class CreateSingersTable extends Migration
     {
         Schema::create('singers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->string('name')->unique();
             $table->timestamps();
         });
     }
