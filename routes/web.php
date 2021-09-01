@@ -17,6 +17,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->group(function (){
     Route::get('/',[AdminPageController::class,'home'])->name('home');
-    Route::get('/create',[AdminPageController::class,'create'])->name('create');
+    Route::get('/create',[AdminPageController::class,'createSinger'])->name('create');
 });
 

@@ -13,6 +13,6 @@ class AdminPageController extends Controller
 
     public function createSinger()
     {
-        
+        return view('admin.singer-manager.create');
     }
 }
