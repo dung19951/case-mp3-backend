@@ -10,4 +10,9 @@ class AdminPageController extends Controller
     {
         return view('admin.singer-manager.list');
     }
+
+    public function createSinger()
+    {
+        
+    }
 }
