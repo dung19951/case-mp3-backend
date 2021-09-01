@@ -220,7 +220,7 @@
                      @endif--}}
                 <div class="row">
                     <div class="col-4">
-                        <a class="btn btn-success" href="">Add Singer</a>
+                        <a class="btn btn-success" href="{{route('create')}}">Add Singer</a>
                     </div>
                     <div class="col-8">
                         <form style="float: right" class="form-inline my-2 my-lg-0" action="" method="get">
