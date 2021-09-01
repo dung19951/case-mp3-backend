@@ -25,10 +25,11 @@ Route::prefix('category')->group(function (){
     Route::delete('{id}/delete',[CategoryController::class,'destroy']);
 });
 Route::prefix('singer')->group(function (){
-    Route::get('/',[SingerApiController::class,'getAll']);
+    Route::get('/',[SingerApiController::class,'getAllSinger']);
     Route::post('/store',[SingerApiController::class,'store']);
-    Route::post('/update/{id}',[SingerApiController::class,'update']);
-    Route::delete('/delete/{id}',[SingerApiController::class,'destroy']);
-    Route::get('detail/{id}',[SingerApiController::class,'detail']);
+    Route::post('/update/{id}',[SingerApiController::class,'updateSinger']);
+    Route::delete('/delete/{id}',[SingerApiController::class,'deleteSinger']);
+    Route::get('detail/{id}',[SingerApiController::class,'singerDetail']);
     Route::get('songs/{id}',[SingerApiController::class,'getListSongBySinger']);
+    Route::get('/find/',[SingerApiController::class,'findSinger']);
 });

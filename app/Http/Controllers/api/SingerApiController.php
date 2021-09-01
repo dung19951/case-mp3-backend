@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class SingerApiController extends Controller
 {
-    public function getAll()
+    public function getAllSinger()
     {
         $singers = Singer::all();
         return response()->json($singers);
@@ -23,7 +23,7 @@ class SingerApiController extends Controller
         return response()->json($singer, 201);
     }
 
-    public function update(Request $request, $id)
+    public function updateSinger(Request $request, $id)
     {
         $singer = Singer::findOrFail($id);
         $singer->name = $request->input('name');
@@ -31,20 +31,20 @@ class SingerApiController extends Controller
         return response()->json($singer, 202);
     }
 
-    public function destroy($id)
+    public function deleteSinger($id)
     {
         $singer = Singer::findOrFail($id);
         $singer->delete();
     }
 
-    public function find(Request $request)
+    public function findSinger(Request $request)
     {
         $keyword = $request->input('search');
-        $singer = Singer::where('name', 'LIKE', '%' . $keyword . '%')->get();
-        return response()->json($singer, 201);
+        $singers = Singer::where('name', 'LIKE', '%' . $keyword . '%')->get();
+        return response()->json($singers, 201);
     }
 
-    public function detail($id)
+    public function singerDetail($id)
     {
         $singer = Singer::findOrFail($id);
         return response()->json($singer);
