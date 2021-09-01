@@ -16,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('admin')->group(function (){
     Route::get('/',[\App\Http\Controllers\AdminPageController::class,'home'])->name('home');
 });
+Route::prefix('song')->group(function (){
+    Route::get('list',[\App\Http\Controllers\SongController::class,'index'])->name('song.list');
+    Route::get('add',[\App\Http\Controllers\SongController::class,'create'])->name('song.add');
+    Route::post('store',[\App\Http\Controllers\SongController::class,'store'])->name('song.store');
+    Route::get('{id}/delete',[\App\Http\Controllers\SongController::class,'destroy'])->name('song.delete');
+    Route::get('{id}/edit',[\App\Http\Controllers\SongController::class,'edit'])->name('song.edit');
+    Route::post('{id}/update',[\App\Http\Controllers\SongController::class,'update'])->name('song.update');
+});
