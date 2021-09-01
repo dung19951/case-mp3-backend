@@ -30,4 +30,5 @@ Route::prefix('singer')->group(function (){
     Route::post('/update/{id}',[SingerApiController::class,'update']);
     Route::delete('/delete/{id}',[SingerApiController::class,'destroy']);
     Route::get('detail/{id}',[SingerApiController::class,'detail']);
+    Route::get('songs/{id}',[SingerApiController::class,'getListSongBySinger']);
 });
