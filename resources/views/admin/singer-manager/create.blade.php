@@ -1,15 +1,11 @@
 @extends('master.master')
 @section('title','Add Singer')
 @section('content')
-    <form action="" method="post" enctype="multipart/form-data">
+    <form action="" method="post">
         @csrf
         <div class="form-group">
-            <label for="image">Category Image</label>
-            <input type="file" class="form-control" name="image" id="image">
-        </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Name</label>
-            <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >
+            <label for="name">Name</label>
+            <input type="text" name="name" class="form-control" id="name" style="width: 30%">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

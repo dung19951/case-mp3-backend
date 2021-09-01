@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminPageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('admin')->group(function (){
-    Route::get('/',[\App\Http\Controllers\AdminPageController::class,'home'])->name('home');
+    Route::get('/',[AdminPageController::class,'home'])->name('home');
+    Route::get('/create',[AdminPageController::class,'createSinger'])->name('create');
+    Route::post('/create',[AdminPageController::class,'store'])->name('store');
 });
