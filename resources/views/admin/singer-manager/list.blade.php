@@ -210,20 +210,12 @@
                         </div>
                     </div>
                 </div>
-
-                {{--     @if (\Session::has('success'))
-                         <div class="alert alert-success">
-                             <ul>
-                                 <li>{!! \Session::get('success') !!}</li>
-                             </ul>
-                         </div>
-                     @endif--}}
                 <div class="row">
                     <div class="col-4">
-                        <a class="btn btn-success" href="">Add Singer</a>
+                        <a class="btn btn-success" href="{{route('create')}}">Add Singer</a>
                     </div>
                     <div class="col-8">
-                        <form style="float: right" class="form-inline my-2 my-lg-0" action="" method="get">
+                        <form style="float: right" class="form-inline my-2 my-lg-0" action="{{route('search')}}" method="get">
                             <input class="form-control mr-sm-2" name="search" type="search"
                                    placeholder="Search Singer" aria-label="Search">
                             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -231,8 +223,6 @@
                     </div>
                 </div>
                 <table class="table table-striped table-hover" style="width: 40%">
-
-                    <table class="table table-striped table-hover">
                         <thead>
                         <tr>
                             <th>#</th>
@@ -240,22 +230,25 @@
                             <th>Actions</th>
                         </tr>
                         </thead>
-                        <tbody id="table-data">
-{{--
-                        <tr>
-                            <td><a href=""><i class="fas fa-edit"></i></a>
-                                <a href=""
-                                   onclick="return confirm('Delete this singer?')"><i
-                                        class="far fa-trash-alt"></i>
-                                </a>
-                            </td>
-                        </tr>
---}}
+                        <tbody>
+                        @foreach($singers as $key => $singer)
+                            <tr>
+                                <td>{{$key+1}}</td>
+                                <td>{{$singer->name}}</td>
+                                <td>
+                                    <a href="{{route('edit',$singer->id)}}"><i class="fas fa-edit"></i></a>
+                                    <a href="{{route('delete',$singer->id)}}"
+                                       onclick="return confirm('Delete this category?')"><i
+                                            class="far fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
                         </tbody>
-                    </table>
                 </table>
             </div>
         </div>
-    </div>
-
+    </div><audio controls>
+        <source src="https://firebasestorage.googleapis.com/v0/b/dung-bc677.appspot.com/o/RoomsImages%2F1630253106030?alt=media&token=e0b44517-1772-4cf3-95bc-3d2e7941df08" type="audio/mpeg">
+    </audio>
 @endsection

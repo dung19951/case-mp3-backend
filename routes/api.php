@@ -1,6 +1,8 @@
 <?php
 
 
+use App\Http\Controllers\api\SingerApiController;
+use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SingerController;
 use Illuminate\Http\Request;
@@ -24,14 +26,24 @@ Route::prefix('category')->group(function (){
     Route::delete('{id}/delete',[CategoryController::class,'destroy']);
 });
 Route::prefix('singer')->group(function (){
-    Route::get('/',[SingerController::class,'getAll']);
-    Route::post('/store',[SingerController::class,'add']);
-    Route::post('{id}/update',[SingerController::class,'update']);
-    Route::delete('{id}/delete',[SingerController::class,'destroy']);
+    Route::get('/',[SingerApiController::class,'getAllSinger']);
+    Route::post('/store',[SingerApiController::class,'store']);
+    Route::post('/update/{id}',[SingerApiController::class,'updateSinger']);
+    Route::delete('/delete/{id}',[SingerApiController::class,'deleteSinger']);
+    Route::get('detail/{id}',[SingerApiController::class,'singerDetail']);
+    Route::get('songs/{id}',[SingerApiController::class,'getListSongBySinger']);
+    Route::get('/find/',[SingerApiController::class,'findSinger']);
 });
+<<<<<<< HEAD
 Route::prefix('song')->group(function (){
     Route::get('list',[\App\Http\Controllers\SongController::class,'index']);
     Route::post('create',[\App\Http\Controllers\SongController::class,'store']);
     Route::post('{id}/update',[\App\Http\Controllers\SongController::class,'update']);
     Route::delete('{id}/{delete}',[\App\Http\Controllers\SongController::class,'destroy']);
 });
+=======
+
+
+Route::post('register',[UserController::class,'register']);
+Route::post('login',[UserController::class,'login']);
+>>>>>>> d635206fb8fbfa6eabf646bb3b8e10303543ac3c

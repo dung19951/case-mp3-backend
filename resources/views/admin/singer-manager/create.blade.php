@@ -1,16 +1,13 @@
 @extends('master.master')
 @section('title','Add Singer')
 @section('content')
-    <form action="" method="post" enctype="multipart/form-data">
+    <form>
         @csrf
         <div class="form-group">
-            <label for="image">Category Image</label>
-            <input type="file" class="form-control" name="image" id="image">
+            <label for="name">Name</label>
+            <input type="text" name="name" class="form-control" id="name_singer" style="width: 30%">
         </div>
-        <div class="form-group">
-            <label for="exampleInputEmail1">Name</label>
-            <input type="text" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" >
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" id="submitButton" class="btn btn-primary">Submit</button>
     </form>
+    <script src="{{asset('jquery/jqueryCreateSinger.js')}}"></script>
 @endsection

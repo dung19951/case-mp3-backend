@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminPageController;
+use App\Http\Controllers\SingerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,7 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('admin')->group(function (){
-    Route::get('/',[\App\Http\Controllers\AdminPageController::class,'home'])->name('home');
+    Route::get('/',[SingerController::class,'getAll'])->name('home');
+    Route::get('/create',[AdminPageController::class,'createSinger'])->name('create');
+    Route::get('/search',[SingerController::class,'search'])->name('search');
+    Route::get('/{id}/delete',[SingerController::class,'delete'])->name('delete');
+    Route::get('/{id}/edit',[SingerController::class,'edit'])->name('edit');
+    Route::post('/{id}/update',[SingerController::class,'update'])->name('update');
 });
 Route::prefix('song')->group(function (){
     Route::get('list',[\App\Http\Controllers\SongController::class,'index'])->name('song.list');
