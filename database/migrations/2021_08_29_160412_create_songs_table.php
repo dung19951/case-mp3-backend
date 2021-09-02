@@ -20,6 +20,8 @@ class CreateSongsTable extends Migration
             $table->string('lyric')->nullable();
             $table->string('song_image');
             $table->string('path');
+            $table->string('album')->nullable();
+            $table->string('author')->nullable();
             $table->bigInteger('view_count')->nullable()->default(0);
             $table->integer('like')->nullable()->default(0);
             $table->integer('unlike')->nullable()->default(0);
