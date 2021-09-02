@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\api\SingerApiController;
+use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SingerController;
 use Illuminate\Http\Request;
@@ -33,3 +34,7 @@ Route::prefix('singer')->group(function (){
     Route::get('songs/{id}',[SingerApiController::class,'getListSongBySinger']);
     Route::get('/find/',[SingerApiController::class,'findSinger']);
 });
+
+
+Route::post('register',[UserController::class,'register']);
+Route::post('login',[UserController::class,'login']);
