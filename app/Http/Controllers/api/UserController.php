@@ -7,6 +7,7 @@ use App\Models\User;
 use http\Client\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -58,7 +59,7 @@ class UserController extends Controller
     public function getUserProfileById($id): \Illuminate\Http\JsonResponse
     {
         $user = $this->getUserById($id);
-        return response()->json(['user' => $user], 200);
+        return $this->isSuccess($user, 'get user successfully');
     }
 
     public function updateUser(Request $request, $id): \Illuminate\Http\JsonResponse
@@ -67,13 +68,16 @@ class UserController extends Controller
         if (!$user) {
             return $this->isError('User not exits');
         }
-        $user = User::update([
+        $user = tap(DB::table('users')->where('id', $user->id))->update([
             'name' => $request->name,
             'phone' => $request->phone,
             'updated_at' => now()
-        ]);
+        ])->first();
         return $this->isSuccess($user, 'update user successfully');
     }
+//$updated = tap(DB::table('users')->where('id', 1))
+//->update(['votes' => 123])
+//->first();
 
     private function getUserById($id)
     {
