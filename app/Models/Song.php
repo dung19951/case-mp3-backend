@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Song extends Model
 {
     use HasFactory;
-     protected $table = 'songs';
 
+    protected $table = 'songs';
+
+    public function singer()
+    {
+        return $this->belongsTo(Singer::class);
+    }
 }
