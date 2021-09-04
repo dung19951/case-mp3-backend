@@ -20,6 +20,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Route::prefix('song')->group(function (){
+    Route::get('list',[\App\Http\Controllers\SongController::class,'index']);
+    Route::post('create',[\App\Http\Controllers\SongController::class,'store']);
+    Route::post('{id}/update',[\App\Http\Controllers\SongController::class,'update']);
+    Route::delete('{id}/{delete}',[\App\Http\Controllers\SongController::class,'destroy']);
+    Route::get('new',[\App\Http\Controllers\SongController::class,'show5']);
+});
+
+
 
 
 Route::post('register', [UserController::class, 'register']);
@@ -49,3 +58,4 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/find/',[SingerApiController::class,'findSinger']);
     });
 });
+
