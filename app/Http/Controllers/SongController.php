@@ -20,6 +20,9 @@ class SongController extends Controller
         $song->song_image=$request->input('song_image');
         $song->singer_id=$request->input('singer_id');
         $song->path=$request->input('path');
+        $song->lyric=$request->input('description');
+        $song->author=$request->input('author');
+        $song->category_id=$request->input('category_id');
         $song->save();
 
         return response()->json($song,201);
@@ -41,13 +44,16 @@ class SongController extends Controller
         $song->song_image=$request->input('song_image');
         $song->singer_id=$request->input('singer_id');
         $song->path=$request->input('path');
+        $song->lyric=$request->input('description');
+        $song->author=$request->input('author');
+        $song->category_id=$request->input('category_id');
         $song->save();
         return response()->json($song,201);
     }
 
     public function show5()
     {
-        $song=Song::whereNotNull('created_at')->limit(5);
+        $song=Song::orderBy('id','desc')->limit(5)->get();
         return response()->json($song);
     }
 }
