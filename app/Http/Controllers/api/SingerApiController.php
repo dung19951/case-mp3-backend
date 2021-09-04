@@ -27,6 +27,13 @@ class SingerApiController extends Controller
     {
         $singer = Singer::findOrFail($id);
         $singer->name = $request->input('name');
+        $singer->gender = $request->input('gender');
+        $singer->date = $request->input('date');
+        $singer->music_category = $request->input('music_category');
+        $singer->band = $request->input('band');
+        $singer->description = $request->input('description');
+        $singer->famousSong = $request->input('famousSong');
+        $singer->moreInfo = $request->input('moreInfo');
         $singer->save();
         return response()->json($singer, 202);
     }
