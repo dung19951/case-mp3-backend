@@ -37,17 +37,22 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        $data = [
-            'email' => $request->email,
-            'password' => $request->password
-        ];
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+        $login = $request->only('email', 'password');
 
-        if (auth()->attempt($data)) {
-            $token = auth()->user()->createToken('LaravelAuthApp')->accessToken;
-            return $this->isSuccess($token, 'login successfully');
-        } else {
-            return response()->json(['error' => 'Unauthorised'], 401);
+        if (!Auth()->attempt($login)) {
+            return response()->json(['message' => 'Invalid login credential!'], 401);
         }
+        $user = Auth::user();
+        $token = $user->createToken($user->name);
+        return response()->json([
+            'user'=>$user,
+            'token' => $token->accessToken,
+            'token_expires_at' => $token->token->expires_at,
+        ], 200);
     }
 
     public function logout(Request $request)
@@ -93,55 +98,56 @@ class UserController extends Controller
     {
         return response()->json(['status' => false, 'data' => [], 'message' => $message]);
     }
+
     public function forgot(ForgotRequest $request)
     {
-        $email= $request->input('email');
-        if (User::where('email',$email)->doesntExist()){
+        $email = $request->input('email');
+        if (User::where('email', $email)->doesntExist()) {
             return response([
-                'message'=>'User doen\'t exist'
+                'message' => 'User doen\'t exist'
             ], 404);
         }
-        $token= Str::random(10);
+        $token = Str::random(10);
         try {
 
 
             DB::table('password_resets')->insert([
-                'email'=>$email,
-                'token'=>$token
+                'email' => $email,
+                'token' => $token
             ]);
-            Mail::send('emails.forgot',['token'=>$token], function (\Illuminate\Mail\Message $message) use ($email){
+            Mail::send('emails.forgot', ['token' => $token], function (\Illuminate\Mail\Message $message) use ($email) {
                 $message->to($email);
                 $message->subject('Reset your password');
             });
             return response([
-                'message'=>'check your email'
+                'message' => 'check your email'
             ]);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return response([
-                'message'=>$exception->getMessage()
-            ],400);
+                'message' => $exception->getMessage()
+            ], 400);
         }
     }
 
     public function reset(Request $request)
     {
-        $token= $request->input('token');
-        if (!$passwordResets= DB::table('password_resets')->where('token', $token)->first()){
+        $token = $request->input('token');
+        if (!$passwordResets = DB::table('password_resets')->where('token', $token)->first()) {
             return response([
-                'message'=>'Invalid token'
-            ],400);
+                'message' => 'Invalid token'
+            ], 400);
         }
 
-        if (!$user= User::where('email', $passwordResets->email)->first()){
-            return  response([
-                'message'=>'User doesn\'t exist'
-            ],400);
+        if (!$user = User::where('email', $passwordResets->email)->first()) {
+            return response([
+                'message' => 'User doesn\'t exist'
+            ], 400);
         }
 
-        $user->password= Hash::make($request->input('password'));
+        $user->password = Hash::make($request->input('password'));
         $user->save();
         return response([
-            'message'=>'success'
+            'message' => 'success'
         ]);
     }
 
