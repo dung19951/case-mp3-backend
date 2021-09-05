@@ -41,6 +41,7 @@ class SingerApiController extends Controller
     public function deleteSinger($id)
     {
         $singer = Singer::findOrFail($id);
+        $singer->song()->delete();
         $singer->delete();
     }
 
@@ -59,7 +60,7 @@ class SingerApiController extends Controller
 
     public function getListSongBySinger($singer_id)
     {
-        $songs = Song::where('singer_id' , 'LIKE' ,'%' . $singer_id)->get();
-        return response()->json($songs,201);
+        $songs = Song::where('singer_id', 'LIKE', '%' . $singer_id)->get();
+        return response()->json($songs, 201);
     }
 }
