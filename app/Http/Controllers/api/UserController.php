@@ -18,19 +18,18 @@ class UserController extends Controller
 {
     public function register(Request $request)
     {
-
         $this->validate($request, [
             'name' => 'required|min:4',
             'email' => 'required|email',
             'password' => 'required|min:6|confirmed',
-            'phone' => 'required|min:10|numeric'
+
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'phone' => $request->phone
+
         ]);
         return $this->isSuccess($user, 'create user successfully');
     }
@@ -44,7 +43,7 @@ class UserController extends Controller
         $login = $request->only('email', 'password');
 
         if (!Auth()->attempt($login)) {
-            return response()->json(['message' => 'Invalid login credential!'], 401);
+            return $this->isError('User not exits');
         }
         $user = Auth::user();
         $token = $user->createToken($user->name);
@@ -59,7 +58,7 @@ class UserController extends Controller
     {
         if (Auth::check()) {
             Auth::user()->token()->revoke();
-            return response(['message' => 'You have been successfully logged out.'], 200);
+            return $this->isSuccess([], 'logout success');
         }
         return $this->isError('User not exits');
     }
