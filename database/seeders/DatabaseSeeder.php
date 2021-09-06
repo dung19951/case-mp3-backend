@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         \App\Models\Singer::factory(100)->create();
-        $this->call(CategorySeeder::class,SongSeeder::class);
+        $this->call(CategorySeeder::class);
+        $this->call(SongSeeder::class);
     }
 }
