@@ -20,9 +20,9 @@ class CreateSingersTable extends Migration
             $table->date('date')->nullable();
             $table->string('music_category')->nullable();
             $table->string('band')->nullable();
-            $table->string('description')->nullable();
+            $table->longText('description')->nullable();
             $table->string('famousSong')->nullable();
-            $table->string('moreInfo')->nullable();
+            $table->longText('moreInfo')->nullable();
             $table->timestamps();
         });
     }
