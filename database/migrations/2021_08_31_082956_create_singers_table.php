@@ -16,6 +16,13 @@ class CreateSingersTable extends Migration
         Schema::create('singers', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name')->unique();
+            $table->string('gender')->nullable();
+            $table->date('date')->nullable();
+            $table->string('music_category')->nullable();
+            $table->string('band')->nullable();
+            $table->longText('description')->nullable();
+            $table->string('famousSong')->nullable();
+            $table->longText('moreInfo')->nullable();
             $table->timestamps();
         });
     }
