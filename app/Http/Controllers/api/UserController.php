@@ -77,6 +77,8 @@ class UserController extends Controller
         }
         $user = DB::table('users')->where('id', $user->id)->update([
             'name' => $request->name,
+            'address'=>$request->address,
+            'avatar'=>$request->avatar,
             'phone' => $request->phone,
             'updated_at' => now()
         ]);
