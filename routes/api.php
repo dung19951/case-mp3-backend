@@ -21,16 +21,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::prefix('song')->group(function (){
-    Route::get('list',[SongController::class,'index']);
-    Route::post('create',[SongController::class,'store']);
-    Route::post('{id}/update',[SongController::class,'update']);
-    Route::delete('{id}/{delete}',[SongController::class,'destroy']);
-    Route::get('new',[SongController::class,'show5']);
+Route::prefix('song')->group(function () {
+    Route::get('list', [SongController::class, 'index']);
+    Route::get('new', [SongController::class, 'show5']);
 });
-
-
-
 
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
@@ -43,21 +37,28 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('/{id}/update', [UserController::class, 'updateUser']);
         Route::post('/{id}/delete', [UserController::class, 'getUserProfileById']);
     });
-    Route::prefix('category')->group(function (){
-        Route::get('/',[CategoryController::class,'gelAll']);
-        Route::post('store',[CategoryController::class,'store']);
-        Route::post('{id}/update',[CategoryController::class,'update']);
-        Route::delete('{id}/delete',[CategoryController::class,'destroy']);
+    Route::prefix('song')->group(function () {
+        Route::post('create', [SongController::class, 'store']);
+        Route::get('{id}/my-song', [SongController::class, 'mySong']);
+        Route::post('{id}/update', [SongController::class, 'update']);
+        Route::delete('{id}/delete', [SongController::class, 'destroy']);
+        Route::get('{id}/find-song', [SongController::class, 'findSongById']);
     });
-    Route::prefix('singer')->group(function (){
-        Route::get('/',[SingerApiController::class,'getAllSinger']);
-        Route::post('/store',[SingerApiController::class,'store']);
-        Route::post('/update/{id}',[SingerApiController::class,'updateSinger']);
-        Route::delete('/delete/{id}',[SingerApiController::class,'deleteSinger']);
-        Route::get('detail/{id}',[SingerApiController::class,'singerDetail']);
-        Route::get('songs/{id}',[SingerApiController::class,'getListSongBySinger']);
-        Route::get('/find/',[SingerApiController::class,'findSinger']);
-    });
+
 });
 
-
+Route::prefix('category')->group(function () {
+    Route::get('/', [CategoryController::class, 'gelAll']);
+    Route::post('store', [CategoryController::class, 'store']);
+    Route::post('{id}/update', [CategoryController::class, 'update']);
+    Route::delete('{id}/delete', [CategoryController::class, 'destroy']);
+});
+Route::prefix('singer')->group(function () {
+    Route::get('/', [SingerApiController::class, 'getAllSinger']);
+    Route::post('/store', [SingerApiController::class, 'store']);
+    Route::post('/update/{id}', [SingerApiController::class, 'updateSinger']);
+    Route::delete('/delete/{id}', [SingerApiController::class, 'deleteSinger']);
+    Route::get('detail/{id}', [SingerApiController::class, 'singerDetail']);
+    Route::get('songs/{id}', [SingerApiController::class, 'getListSongBySinger']);
+    Route::get('/find/', [SingerApiController::class, 'findSinger']);
+});

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ForgotRequest;
 use App\Models\User;
-use http\Client\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -43,7 +42,10 @@ class UserController extends Controller
         $login = $request->only('email', 'password');
 
         if (!Auth()->attempt($login)) {
-            return $this->isError('User not exits');
+//            return $this->isError('User not exits');
+            return response()->json([
+                'message'=>'User not exist'
+            ],401);
         }
         $user = Auth::user();
         $token = $user->createToken($user->name);
@@ -52,6 +54,7 @@ class UserController extends Controller
             'token' => $token->accessToken,
             'token_expires_at' => $token->token->expires_at,
         ], 200);
+
     }
 
     public function logout(Request $request)
@@ -66,7 +69,11 @@ class UserController extends Controller
     public function getUserProfileById($id): \Illuminate\Http\JsonResponse
     {
         $user = $this->getUserById($id);
-        return $this->isSuccess($user, 'get user successfully');
+//        return $this->isSuccess($user, 'get user successfully');
+        return response()->json([
+            'user'=>$user,
+            'message'=>'get user successfully'
+        ]);
     }
 
     public function updateUser(Request $request, $id): \Illuminate\Http\JsonResponse
@@ -77,6 +84,9 @@ class UserController extends Controller
         }
         $user = DB::table('users')->where('id', $user->id)->update([
             'name' => $request->name,
+            'address'=>$request->address,
+            'email'=>$request->email,
+            'avatar'=>$request->input('avatar'),
             'phone' => $request->phone,
             'updated_at' => now()
         ]);
