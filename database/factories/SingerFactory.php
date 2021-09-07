@@ -30,7 +30,9 @@ class SingerFactory extends Factory
             'band'=>$this->faker->name(),
             'description'=>'Phan Mạnh Quỳnh là một ca sĩ kiêm nhạc sĩ của Việt Nam. Anh giành được một đề cử Cống hiến cho bài "Huyền thoại" năm 2019. Anh là tác giả của bài hát nổi tiếng "Có chàng trai viết lên cây"',
             'famousSong'=>$this->faker->randomDigitNotNull(),
-            'moreInfo'=>$this->faker->randomDigit()
+            'moreInfo'=>$this->faker->randomDigit(),
+            'user_id'=>1,
+
         ];
     }
 }
