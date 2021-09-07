@@ -66,7 +66,11 @@ class UserController extends Controller
     public function getUserProfileById($id): \Illuminate\Http\JsonResponse
     {
         $user = $this->getUserById($id);
-        return $this->isSuccess($user, 'get user successfully');
+//        return $this->isSuccess($user, 'get user successfully');
+        return response()->json([
+           'user'=>$user,
+            'message'=>'get user successfully'
+        ]);
     }
 
     public function updateUser(Request $request, $id): \Illuminate\Http\JsonResponse
@@ -75,11 +79,13 @@ class UserController extends Controller
         if (!$user) {
             return $this->isError('User not exits');
         }
+
         $user = DB::table('users')->where('id', $user->id)->update([
             'name' => $request->name,
             'address'=>$request->address,
             'avatar'=>$request->avatar,
             'phone' => $request->phone,
+            'email'=>$request->email,
             'updated_at' => now()
         ]);
         return $this->isSuccess($user, 'update user successfully');
@@ -106,7 +112,7 @@ class UserController extends Controller
         if (User::where('email', $email)->doesntExist()) {
             return response([
                 'message' => 'User doen\'t exist'
-            ], 404);
+            ], 200);
         }
         $token = Str::random(10);
         try {
