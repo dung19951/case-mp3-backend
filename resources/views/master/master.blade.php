@@ -55,6 +55,10 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                         Singer Managerment
                     </a>
+                    <a class="nav-link" href="{{route('song.list')}}">
+                        <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                        Song Managerment
+                    </a>
                     <a class="nav-link" href="">
                         <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                         Category Manager

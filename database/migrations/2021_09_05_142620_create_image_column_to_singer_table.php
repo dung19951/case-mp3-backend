@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSingersColumnToSongTable extends Migration
+class CreateImageColumnToSingerTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddSingersColumnToSongTable extends Migration
      */
     public function up()
     {
-        Schema::table('songs', function (Blueprint $table) {
-            $table->unsignedBigInteger('singer_id');
+        Schema::table('singers', function (Blueprint $table) {
+            $table->text('image')->nullable()->after('name');
         });
     }
 
@@ -25,7 +25,7 @@ class AddSingersColumnToSongTable extends Migration
      */
     public function down()
     {
-        Schema::table('songs', function (Blueprint $table) {
+        Schema::table('singers', function (Blueprint $table) {
             //
         });
     }

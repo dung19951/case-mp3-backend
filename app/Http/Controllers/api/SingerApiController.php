@@ -19,6 +19,18 @@ class SingerApiController extends Controller
     {
         $singer = new Singer();
         $singer->name = $request->input('name');
+        $singer->gender = $request->input('gender');
+        $singer->date = $request->input('date');
+        $singer->music_category = $request->input('music_category');
+        $singer->band = $request->input('band');
+        $singer->description = $request->input('description');
+        $singer->famousSong = $request->input('famousSong');
+        $singer->moreInfo = $request->input('moreInfo');
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $path = $image->store('images', 'public');
+            $singer->image = $path;
+        }
         $singer->save();
         return response()->json($singer, 201);
     }
@@ -27,6 +39,18 @@ class SingerApiController extends Controller
     {
         $singer = Singer::findOrFail($id);
         $singer->name = $request->input('name');
+        $singer->gender = $request->input('gender');
+        $singer->date = $request->input('date');
+        $singer->music_category = $request->input('music_category');
+        $singer->band = $request->input('band');
+        $singer->description = $request->input('description');
+        $singer->famousSong = $request->input('famousSong');
+        $singer->moreInfo = $request->input('moreInfo');
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $path = $image->store('images', 'public');
+            $singer->image = $path;
+        }
         $singer->save();
         return response()->json($singer, 202);
     }
@@ -34,6 +58,7 @@ class SingerApiController extends Controller
     public function deleteSinger($id)
     {
         $singer = Singer::findOrFail($id);
+        $singer->song()->delete();
         $singer->delete();
     }
 
@@ -52,7 +77,7 @@ class SingerApiController extends Controller
 
     public function getListSongBySinger($singer_id)
     {
-        $songs = Song::where('singer_id' , 'LIKE' ,'%' . $singer_id)->get();
-        return response()->json($songs,201);
+        $songs = Song::where('singer_id', 'LIKE', '%' . $singer_id)->get();
+        return response()->json($songs, 201);
     }
 }
