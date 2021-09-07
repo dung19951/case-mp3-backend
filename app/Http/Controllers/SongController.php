@@ -23,6 +23,7 @@ class SongController extends Controller
         $song->lyric=$request->input('description');
         $song->author=$request->input('author');
         $song->category_id=$request->input('category_id');
+        $song->user_id= $request->input('user_id');
         $song->save();
 
         return response()->json($song,201);
