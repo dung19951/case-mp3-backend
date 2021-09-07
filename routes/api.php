@@ -28,9 +28,6 @@ Route::prefix('song')->group(function (){
     Route::get('new',[\App\Http\Controllers\SongController::class,'show5']);
 });
 
-
-
-
 Route::post('register', [UserController::class, 'register']);
 Route::post('login', [UserController::class, 'login']);
 Route::post('forgot', [UserController::class, 'forgot']);
