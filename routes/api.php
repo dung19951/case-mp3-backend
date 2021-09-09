@@ -62,3 +62,7 @@ Route::prefix('singer')->group(function () {
     Route::get('songs/{id}', [SingerApiController::class, 'getListSongBySinger']);
     Route::get('/find/', [SingerApiController::class, 'findSinger']);
 });
+Route::get('/',[SingerApiController::class,'getAllSinger']);
+Route::get('songs/{id}',[SingerApiController::class,'getListSongBySinger']);
+Route::get('detail/{id}',[SingerApiController::class,'singerDetail']);
+Route::get('/',[CategoryController::class,'gelAll']);
