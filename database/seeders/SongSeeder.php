@@ -25,7 +25,8 @@ class SongSeeder extends Seeder
         $song->view_count = 0;
         $song->like = 0;
         $song->unlike = 0;
-        $song->singer_id = '5';
+        $song->singer_id = '1';
+        $song->user_id = 1;
         $song->save();
     }
 }

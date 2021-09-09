@@ -5,7 +5,6 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ForgotRequest;
 use App\Models\User;
-use http\Client\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -82,7 +81,7 @@ class UserController extends Controller
             'name' => $request->name,
             'address'=>$request->address,
             'email'=>$request->email,
-            'avatar'=>$request->avatar,
+            'avatar'=>$request->input('avatar'),
             'phone' => $request->phone,
             'updated_at' => now()
         ]);
