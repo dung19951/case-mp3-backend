@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Symfony\Component\Console\Input\Input;
 
 
 class UserController extends Controller
@@ -20,18 +21,16 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|min:4',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'password' => 'required|min:6|confirmed',
-
         ]);
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
+            return $this->isSuccess($user, 'create user successfully');
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-
-        ]);
-        return $this->isSuccess($user, 'create user successfully');
     }
 
     public function login(Request $request)
@@ -41,12 +40,8 @@ class UserController extends Controller
             'password' => 'required',
         ]);
         $login = $request->only('email', 'password');
-
-        if (!Auth()->attempt($login)) {
-//            return $this->isError('User not exits');
-            return response()->json([
-                'message'=>'User not exist'
-            ],401);
+        if (!Auth::attempt($login)){
+            return response(['message'=>'Sai tài khoản hoặc mật khẩu'],401);
         }
         $user = Auth::user();
         $token = $user->createToken($user->name);
@@ -114,8 +109,8 @@ class UserController extends Controller
         $email = $request->input('email');
         if (User::where('email', $email)->doesntExist()) {
             return response([
-                'message' => 'User doen\'t exist'
-            ], 404);
+                'message' => 'Email does not exist'
+            ], 200);
         }
         $token = Str::random(10);
         try {
@@ -123,7 +118,8 @@ class UserController extends Controller
 
             DB::table('password_resets')->insert([
                 'email' => $email,
-                'token' => $token
+                'token' => $token,
+                'created_at'=>now()->addHours(6)
             ]);
             Mail::send('emails.forgot', ['token' => $token], function (\Illuminate\Mail\Message $message) use ($email) {
                 $message->to($email);
@@ -141,24 +137,26 @@ class UserController extends Controller
 
     public function reset(Request $request)
     {
-        $token = $request->input('token');
-        if (!$passwordResets = DB::table('password_resets')->where('token', $token)->first()) {
-            return response([
-                'message' => 'Invalid token'
-            ], 400);
-        }
-
-        if (!$user = User::where('email', $passwordResets->email)->first()) {
-            return response([
-                'message' => 'User doesn\'t exist'
-            ], 400);
-        }
-
-        $user->password = Hash::make($request->input('password'));
-        $user->save();
-        return response([
-            'message' => 'success'
+        $this->validate($request,[
+            'token'=>'required|string',
+            'password'=>'required|confirmed'
         ]);
+        $token= $request->token;
+        $passwordRest= DB::table('password_resets')->where('token',$token)->first();
+        if (!$passwordRest){
+            return response(['message'=>'token not found'],200);
+        }
+        if (!$passwordRest->created_at >= now()){
+            return response(['message'=>'token has expired'],200);
+        }
+        $user= User::where('email', $passwordRest->email)->first();
+        if (!$user){
+            return response(['message'=>'user does not exists'],200);
+        }
+        $user->password= Hash::make($request->password);
+        $user->save();
+        DB::table('password_resets')->where('token',$token)->delete();
+        return response(['message'=>'Password successfully update'],200);
     }
 
 }
