@@ -1,1 +1,1 @@
-change your password <a class="btn-primary" href="http://localhost:3000/reset?token={{$token}}">here</a>
+change your password <a class="btn-primary" href="http://localhost:4200/reset?token={{$token}}">here</a>
