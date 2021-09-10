@@ -44,7 +44,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::delete('{id}/delete', [SongController::class, 'destroy']);
         Route::get('{id}/find-song', [SongController::class, 'findSongById']);
     });
-
+    Route::post('/store', [SingerApiController::class, 'store']);
 });
 
 Route::prefix('category')->group(function () {
@@ -55,7 +55,6 @@ Route::prefix('category')->group(function () {
 });
 Route::prefix('singer')->group(function () {
     Route::get('/', [SingerApiController::class, 'getAllSinger']);
-    Route::post('/store', [SingerApiController::class, 'store']);
     Route::post('/update/{id}', [SingerApiController::class, 'updateSinger']);
     Route::delete('/delete/{id}', [SingerApiController::class, 'deleteSinger']);
     Route::get('detail/{id}', [SingerApiController::class, 'singerDetail']);
