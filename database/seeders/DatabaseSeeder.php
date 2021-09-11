@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UserTableSeeder::class);
         \App\Models\Singer::factory(10)->create();
         $this->call(CategorySeeder::class);
-//        $this->call(SongSeeder::class);
+        $this->call(SongSeeder::class);
+
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\Input;
 
@@ -49,6 +50,35 @@ class UserController extends Controller
             'token' => $token->accessToken,
             'token_expires_at' => $token->token->expires_at,
         ], 200);
+
+    }
+
+    public function changepassword(Request $request)
+    {
+
+        $validator= Validator::make($request->all(),[
+           'old_password'=>'required',
+            'password'=>'required|min:6|max:10|confirmed'
+        ]);
+        if ($validator->fails()){
+            return response()->json([
+               'message'=>'validation fail',
+                'errors'=>$validator->errors()
+            ],422);
+        }
+        $user= $request->user();
+        if (Hash::check($request->old_password, $user->password)){
+                $user->update([
+                   'password'=>Hash::make($request->password)
+                ]);
+                return response()->json([
+                   'message'=>'password successfully updated'
+                ],200);
+        }else{
+            return response()->json([
+               'message'=>'Old password does not matched'
+            ],400);
+        }
 
     }
 
