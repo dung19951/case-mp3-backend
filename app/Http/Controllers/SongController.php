@@ -23,7 +23,7 @@ class SongController extends Controller
         $song->song_image = $request->input('song_image');
         $song->singer_id = $request->input('singer_id');
         $song->path = $request->input('path');
-        $song->lyric = $request->input('description');
+        $song->lyric = $request->input('lyric');
         $song->author = $request->input('author');
         $song->category_id = $request->input('category_id');
         $song->user_id = $request->input('user_id');
@@ -48,7 +48,7 @@ class SongController extends Controller
         $song->song_image = $request->input('song_image');
         $song->singer_id = $request->input('singer_id');
         $song->path = $request->input('path');
-        $song->lyric = $request->input('description');
+        $song->lyric = $request->input('lyric');
         $song->author = $request->input('author');
         $song->save();
         return response()->json($song, 201);
