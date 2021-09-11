@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/{id}', [UserController::class, 'getUserProfileById']);
         Route::post('/{id}/update', [UserController::class, 'updateUser']);
         Route::post('/{id}/delete', [UserController::class, 'getUserProfileById']);
+        Route::post('/change-password', [UserController::class, 'changepassword']);
     });
     Route::prefix('song')->group(function () {
         Route::post('create', [SongController::class, 'store']);
