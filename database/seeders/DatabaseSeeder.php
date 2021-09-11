@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Singer;
+use App\Models\Song;
 use Database\Factories\SingerFactory;
 use Illuminate\Database\Seeder;
 
