@@ -26,10 +26,18 @@ class SingerApiController extends Controller
         $singer->description = $request->input('description');
         $singer->famousSong = $request->input('famousSong');
         $singer->moreInfo = $request->input('moreInfo');
-        $singer->image = $request->input('image');
+        if($request->input('image') == ""){
+            $singer->image = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThePLrVodTS-3k1dhfpG0zL-Nrz0_Z1b0IjQ&usqp=CAU";
+        }else{
+            $singer->image = $request->input('image');
+        }
         $singer->user_id = auth()->id();
-        $singer->save();
-        return response()->json($singer, 201);
+        $message = " tên ca sĩ đã tồn tại";
+        if ($singer->save()){
+            return response()->json($singer, 201);
+        }else{
+            return response()->json($message,500);
+        }
     }
 
     public function updateSinger(Request $request, $id)
