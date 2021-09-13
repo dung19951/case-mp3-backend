@@ -34,4 +34,9 @@ class Song extends Model
     {
         return $this->belongsToMany(Play_list::class,'playLists_songs','song_id','playList_id',);
     }
+
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 }

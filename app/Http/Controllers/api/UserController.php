@@ -19,19 +19,29 @@ class UserController extends Controller
 {
     public function register(Request $request)
     {
-        $this->validate($request, [
+        $rule = [
             'name' => 'required|min:4',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6|confirmed',
-        ]);
+        ];
+        $validate = Validator::make($request->all(), $rule);
+        if ($validate->fails()) {
+            return response()->json([
+                'status' => false,
+                'message' => $validate->getMessageBag()
+
+            ], 422);
+        }
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
             ]);
             return $this->isSuccess($user, 'create user successfully');
+        }
 
-    }
+
+
 
     public function login(Request $request)
     {
@@ -40,13 +50,13 @@ class UserController extends Controller
             'password' => 'required',
         ]);
         $login = $request->only('email', 'password');
-        if (!Auth::attempt($login)){
-            return response(['message'=>'Sai tài khoản hoặc mật khẩu'],401);
+        if (!Auth::attempt($login)) {
+            return response(['message' => 'Sai tài khoản hoặc mật khẩu'], 401);
         }
         $user = Auth::user();
         $token = $user->createToken($user->name);
         return response()->json([
-            'user'=>$user,
+            'user' => $user,
             'token' => $token->accessToken,
             'token_expires_at' => $token->token->expires_at,
         ], 200);
@@ -56,28 +66,28 @@ class UserController extends Controller
     public function changepassword(Request $request)
     {
 
-        $validator= Validator::make($request->all(),[
-           'old_password'=>'required',
-            'password'=>'required|min:6|max:10|confirmed'
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required',
+            'password' => 'required|min:6|max:10|confirmed'
         ]);
-        if ($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
-               'message'=>'validation fail',
-                'errors'=>$validator->errors()
-            ],422);
+                'message' => 'validation fail',
+                'errors' => $validator->errors()
+            ], 422);
         }
-        $user= $request->user();
-        if (Hash::check($request->old_password, $user->password)){
-                $user->update([
-                   'password'=>Hash::make($request->password)
-                ]);
-                return response()->json([
-                   'message'=>'password successfully updated'
-                ],200);
-        }else{
+        $user = $request->user();
+        if (Hash::check($request->old_password, $user->password)) {
+            $user->update([
+                'password' => Hash::make($request->password)
+            ]);
             return response()->json([
-               'message'=>'Old password does not matched'
-            ],400);
+                'message' => 'password successfully updated'
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'Old password does not matched'
+            ], 400);
         }
 
     }
@@ -96,8 +106,8 @@ class UserController extends Controller
         $user = $this->getUserById($id);
 //        return $this->isSuccess($user, 'get user successfully');
         return response()->json([
-            'user'=>$user,
-            'message'=>'get user successfully'
+            'user' => $user,
+            'message' => 'get user successfully'
         ]);
     }
 
@@ -109,9 +119,9 @@ class UserController extends Controller
         }
         $user = DB::table('users')->where('id', $user->id)->update([
             'name' => $request->name,
-            'address'=>$request->address,
-            'email'=>$request->email,
-            'avatar'=>$request->input('avatar'),
+            'address' => $request->address,
+            'email' => $request->email,
+            'avatar' => $request->input('avatar'),
             'phone' => $request->phone,
             'updated_at' => now()
         ]);
@@ -148,7 +158,7 @@ class UserController extends Controller
             DB::table('password_resets')->insert([
                 'email' => $email,
                 'token' => $token,
-                'created_at'=>now()->addHours(6)
+                'created_at' => now()->addHours(6)
             ]);
             Mail::send('emails.forgot', ['token' => $token], function (\Illuminate\Mail\Message $message) use ($email) {
                 $message->to($email);
@@ -166,26 +176,26 @@ class UserController extends Controller
 
     public function reset(Request $request)
     {
-        $this->validate($request,[
-            'token'=>'required|string',
-            'password'=>'required|confirmed'
+        $this->validate($request, [
+            'token' => 'required|string',
+            'password' => 'required|confirmed'
         ]);
-        $token= $request->token;
-        $passwordRest= DB::table('password_resets')->where('token',$token)->first();
-        if (!$passwordRest){
-            return response(['message'=>'token not found'],200);
+        $token = $request->token;
+        $passwordRest = DB::table('password_resets')->where('token', $token)->first();
+        if (!$passwordRest) {
+            return response(['message' => 'token not found'], 200);
         }
-        if (!$passwordRest->created_at >= now()){
-            return response(['message'=>'token has expired'],200);
+        if (!$passwordRest->created_at >= now()) {
+            return response(['message' => 'token has expired'], 200);
         }
-        $user= User::where('email', $passwordRest->email)->first();
-        if (!$user){
-            return response(['message'=>'user does not exists'],200);
+        $user = User::where('email', $passwordRest->email)->first();
+        if (!$user) {
+            return response(['message' => 'user does not exists'], 200);
         }
-        $user->password= Hash::make($request->password);
+        $user->password = Hash::make($request->password);
         $user->save();
-        DB::table('password_resets')->where('token',$token)->delete();
-        return response(['message'=>'Password successfully update'],200);
+        DB::table('password_resets')->where('token', $token)->delete();
+        return response(['message' => 'Password successfully update'], 200);
     }
 
 }

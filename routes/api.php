@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\api\LikeController;
 use App\Http\Controllers\api\SingerApiController;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\CategoryController;
@@ -58,6 +59,9 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::post('{id}/{song_id}/add-song',[PlaylistController::class,'addSong']);
         Route::get('{id}/count',[PlaylistController::class,'countSongPlaylist']);
         Route::get('{id}/my-playlist',[PlaylistController::class,'countPlaylistUser']);
+    });
+    Route::prefix('like')->group(function (){
+        Route::post('{id}/like',[LikeController::class,'like']);
     });
 
 
