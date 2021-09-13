@@ -26,11 +26,8 @@ class SingerApiController extends Controller
         $singer->description = $request->input('description');
         $singer->famousSong = $request->input('famousSong');
         $singer->moreInfo = $request->input('moreInfo');
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $path = $image->store('images', 'public');
-            $singer->image = $path;
-        }
+        $singer->image = $request->input('image');
+        $singer->user_id = auth()->id();
         $singer->save();
         return response()->json($singer, 201);
     }

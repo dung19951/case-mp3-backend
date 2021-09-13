@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateForeinKeyOnRolesAndSongsTable extends Migration
+class AddUserIdColumnToPlayListsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class CreateForeinKeyOnRolesAndSongsTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreign('role_id')->references('id')->on('roles');
+        Schema::table('play_lists', function (Blueprint $table) {
+            $table->unsignedBigInteger('user_id')->after('name');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -25,7 +26,7 @@ class CreateForeinKeyOnRolesAndSongsTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('play_lists', function (Blueprint $table) {
             //
         });
     }
