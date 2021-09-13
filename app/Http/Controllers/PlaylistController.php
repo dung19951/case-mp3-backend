@@ -80,4 +80,10 @@ class PlaylistController extends Controller
         return response()->json($count);
    }
 
+    public function getAll()
+    {
+        $playlists=Play_list::all();
+        return response()->json($playlists);
+   }
+
 }
