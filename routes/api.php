@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\api\LikeController;
 use App\Http\Controllers\api\SingerApiController;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\CategoryController;
@@ -63,6 +64,9 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::prefix('comment')->group(function (){
         Route::post('create',[CommentController::class,'create']);
         Route::delete('{id}/delete',[CommentController::class,'delete']);
+    });
+    Route::prefix('like')->group(function (){
+        Route::post('{id}/like',[LikeController::class,'like']);
     });
 
 
