@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateForeinKeyOnCommentsTable extends Migration
+class AddColumnPlaylistIdToCommemtTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class CreateForeinKeyOnCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::table('play_lists', function (Blueprint $table) {
-            $table->foreign('comment_id')->references('id')->on('comments');
+        Schema::table('comments', function (Blueprint $table) {
+            $table->unsignedBigInteger('playlist_id')->after('user_id');
+            $table->foreign('playlist_id')->references('id')->on('play_lists');
         });
     }
 
@@ -25,7 +26,7 @@ class CreateForeinKeyOnCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::table('play_lists', function (Blueprint $table) {
+        Schema::table('comments', function (Blueprint $table) {
             //
         });
     }

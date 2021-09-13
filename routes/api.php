@@ -5,6 +5,7 @@ use App\Http\Controllers\api\LikeController;
 use App\Http\Controllers\api\SingerApiController;
 use App\Http\Controllers\api\UserController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\SingerController;
 use App\Http\Controllers\SongController;
@@ -60,6 +61,10 @@ Route::group(['middleware' => 'auth:api'], function () {
         Route::get('{id}/count',[PlaylistController::class,'countSongPlaylist']);
         Route::get('{id}/my-playlist',[PlaylistController::class,'countPlaylistUser']);
     });
+    Route::prefix('comment')->group(function (){
+        Route::post('create',[CommentController::class,'create']);
+        Route::delete('{id}/delete',[CommentController::class,'delete']);
+    });
     Route::prefix('like')->group(function (){
         Route::post('{id}/like',[LikeController::class,'like']);
     });
@@ -85,4 +90,7 @@ Route::get('/',[SingerApiController::class,'getAllSinger']);
 Route::get('songs/{id}',[SingerApiController::class,'getListSongBySinger']);
 Route::get('detail/{id}',[SingerApiController::class,'singerDetail']);
 Route::get('/',[CategoryController::class,'gelAll']);
-
+Route::prefix('comment')->group(function (){
+    Route::get('{id}/get-comment',[CommentController::class,'findCommentByPlaylistId']);
+});
+Route::get('all-playlist',[PlaylistController::class,'getAll']);
